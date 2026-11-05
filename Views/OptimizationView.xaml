@@ -1,0 +1,51 @@
+<UserControl x:Class="NexusOptimizer.Views.OptimizationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Foreground="{StaticResource TextBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,12,0">
+            <TextBlock Text="Windows Optimization" FontSize="28" FontWeight="SemiBold"/>
+            <TextBlock Text="Each change is backed up before it is applied. Click a button to apply or undo it."
+                       Foreground="{StaticResource MutedBrush}" Margin="0,4,0,16"/>
+
+            <Button Content="Undo All"
+                    Style="{StaticResource SecondaryButton}"
+                    Command="{Binding UndoAllCommand}"
+                    HorizontalAlignment="Left"
+                    Margin="0,0,0,16"/>
+
+            <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}" FontSize="16" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Description}"
+                                               Foreground="{StaticResource MutedBrush}"
+                                               TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                    <TextBlock Text="{Binding Risk, StringFormat=Risk: {0}}"
+                                               FontSize="12" Foreground="{StaticResource MutedBrush}"/>
+                                    <TextBlock Text="{Binding StatusText}" FontSize="12" Margin="0,4,0,0"/>
+                                </StackPanel>
+                                                                <CheckBox Grid.Column="1"
+                                          Style="{StaticResource ToggleSwitch}"
+                                          IsChecked="{Binding IsApplied, Mode=OneWay}"
+                                          Click="Apply_Click"
+                                          Tag="{Binding}"
+                                          Margin="16,0,0,0"
+                                          VerticalAlignment="Center"/>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource MutedBrush}" Margin="0,8,0,0"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

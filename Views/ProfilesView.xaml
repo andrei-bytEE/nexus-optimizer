@@ -1,0 +1,47 @@
+<UserControl x:Class="NexusOptimizer.Views.ProfilesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Foreground="{StaticResource TextBrush}">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,12,0">
+            <TextBlock Text="Gaming Profile" FontSize="28" FontWeight="SemiBold"/>
+            <TextBlock Text="One switch turns on the gaming settings and the High performance power plan. Turning it off undoes both. Gains vary by PC, so compare frame rates before and after."
+                       Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,4,0,20"/>
+
+            <CheckBox Style="{StaticResource ToggleSwitch}"
+                      Content="Gaming profile"
+                      Margin="0,0,0,16"
+                      Command="{Binding ApplyGamingCommand}"
+                      IsChecked="{Binding GamingOn, Mode=OneWay}"/>
+
+            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+                <StackPanel>
+                    <TextBlock Text="Power plan" FontSize="16" FontWeight="SemiBold"/>
+                    <TextBlock Text="High performance keeps the CPU at higher clock speeds. It uses more power and heat, so it's most useful on desktops or when plugged in."
+                               Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,4,0,8"/>
+                    <TextBlock Text="{Binding PowerStatus}" FontSize="12"/>
+                </StackPanel>
+            </Border>
+
+            <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding Description}"
+                                           Foreground="{StaticResource MutedBrush}"
+                                           TextWrapping="Wrap" Margin="0,4,0,6"/>
+                                <TextBlock Text="{Binding Risk, StringFormat=Risk: {0}}"
+                                           FontSize="12" Foreground="{StaticResource MutedBrush}"/>
+                                <TextBlock Text="{Binding StatusText}" FontSize="12" Margin="0,4,0,0"/>
+                            </StackPanel>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

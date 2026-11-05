@@ -1,0 +1,104 @@
+<UserControl x:Class="NexusOptimizer.Views.DashboardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Foreground="{StaticResource TextBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,12,0">
+                <TextBlock Text="Dashboard" FontSize="28" FontWeight="SemiBold"/>
+                <TextBlock Text="Detected system state and optimization status."
+                           Foreground="{StaticResource MutedBrush}" Margin="0,4,0,20"/>
+
+                <WrapPanel>
+                    <Button Content="Optimize Now"
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding OptimizeNowCommand}"
+                            Margin="0,0,12,8"/>
+                    <Button Content="Quick Optimization"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding QuickOptimizeCommand}"
+                            Margin="0,0,12,8"/>
+                    <Button Content="System Scan"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding SystemScanCommand}"
+                            Margin="0,0,12,8"/>
+                    <Button Content="Restart as Administrator"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding ElevateCommand}"
+                            Visibility="{Binding ShowElevateButton, Converter={StaticResource BoolToVis}}"
+                            Margin="0,0,12,8"/>
+                    <TextBlock Text="{Binding ScanStatus}"
+                               Foreground="{StaticResource MutedBrush}"
+                               VerticalAlignment="Center" Margin="4,0,0,8"/>
+                </WrapPanel>
+
+                <TextBlock Text="{Binding OptimizeHint}" Foreground="#C4A5FF"
+                           TextWrapping="Wrap" Margin="0,4,0,0"/>
+
+                <Grid Margin="0,24,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Style="{StaticResource CardStyle}" Margin="0,0,8,0">
+                        <StackPanel>
+                            <TextBlock Text="System" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,14"/>
+                            <ItemsControl ItemsSource="{Binding SystemRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Label}"
+                                                       Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Value}" TextWrapping="Wrap"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="8,0,0,0">
+                        <StackPanel>
+                            <TextBlock Text="Optimization" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,14"/>
+                            <ItemsControl ItemsSource="{Binding OptimizationRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="150"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Label}"
+                                                       Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Value}" TextWrapping="Wrap"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Row="1"
+                Content="Uninstall NEXUS OPTIMIZER"
+                Style="{StaticResource SecondaryButton}"
+                Command="{Binding UninstallCommand}"
+                Background="#3A1518"
+                BorderBrush="#E5484D"
+                Foreground="#FF8A85"
+                HorizontalAlignment="Right"
+                Margin="0,12,12,0"/>
+    </Grid>
+</UserControl>
