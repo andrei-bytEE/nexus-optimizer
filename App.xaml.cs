@@ -9,7 +9,11 @@ public partial class App : Application
     {
         base.OnStartup(e);
         LoggingService.Info("NEXUS OPTIMIZER started.");
-
+        if (!Services.PrivacyAcceptance.IsAccepted)
+        {
+            var privacy = new Views.PrivacyWindow();
+            privacy.ShowDialog();
+        }
         DispatcherUnhandledException += (_, args) =>
         {
             LoggingService.Error("Unhandled UI exception", args.Exception);

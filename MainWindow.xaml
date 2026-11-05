@@ -86,7 +86,7 @@
 
                 <StackPanel DockPanel.Dock="Bottom">
                     <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,0,0,14"/>
-                    <TextBlock Text="Version 0.1" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="6,0,0,0"/>
+                    <TextBlock Text="{Binding VersionText}" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="6,0,0,0"/>
                 </StackPanel>
             </DockPanel>
         </Border>

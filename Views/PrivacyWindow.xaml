@@ -1,0 +1,50 @@
+<Window x:Class="NexusOptimizer.Views.PrivacyWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Welcome to NEXUS OPTIMIZER"
+        Width="620" Height="600" MinWidth="500" MinHeight="450"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="CanResizeWithGrip"
+        Background="{StaticResource BgBrush}"
+        Foreground="{StaticResource TextBrush}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Text="Privacy and Terms" FontSize="24" FontWeight="SemiBold"/>
+
+        <ScrollViewer Grid.Row="1" Margin="0,16,0,16" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="What NEXUS OPTIMIZER does" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,16"
+                           Text="The software makes the best changes to maximize performance on your PC. It adjusts Windows settings, startup programs, power behavior, and background activity to help your system run more smoothly. You can see every change in the app, and you can undo them."/>
+
+                <TextBlock Text="What it reads" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,16"
+                           Text="The software reads your hardware and Windows details, the programs that start with Windows, installed apps, and live performance readings such as CPU, memory, and GPU use. It reads these only on your PC to show them in the app."/>
+
+                <TextBlock Text="What it changes" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,16"
+                           Text="The software changes Windows settings, power plans, startup programs, and installed apps only when you choose to. Some changes need administrator permission. Every change is backed up first so it can be reverted. Uninstalling a program runs that program's own uninstaller."/>
+
+                <TextBlock Text="Updates" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,16"
+                           Text="When a new version is available, the software asks before installing it. Updates are checked against a signed release from the developer."/>
+
+                <TextBlock Text="What it does not do" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}" Margin="0,0,0,16"
+                           Text="The software does not collect, store, or send personal data, browsing history, files, or usage information anywhere. The only network request it makes is checking for updates. Your license key is checked on this PC."/>
+
+                <TextBlock Text="Important" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <TextBlock TextWrapping="Wrap" Foreground="{StaticResource MutedBrush}"
+                           Text="Performance gains vary by PC and are not guaranteed. Create a restore point before making large changes. Scroll to the end and click I Understand to continue."/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Button Grid.Row="2" Content="I Understand" Style="{StaticResource PrimaryButton}"
+                HorizontalAlignment="Right" Click="Accept_Click"/>
+    </Grid>
+</Window>

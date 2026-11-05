@@ -4,7 +4,7 @@ using NexusOptimizer.Models;
 
 namespace NexusOptimizer.Services;
 
-/// <summary>Reverts applied changes, then removes the app's own data folder and optionally its executable.</summary>
+/// <summary>Reverts applied changes, then removes the app's data folder and optionally its executable.</summary>
 public static class UninstallService
 {
     public static string DataDir => Path.Combine(
@@ -13,7 +13,6 @@ public static class UninstallService
     public static int PendingChangeCount(RegistryBackupService backups) =>
         backups.History.Count(e => !e.Restored);
 
-    /// <summary>Reverts every unreverted change, newest first. Stops reporting failure if any step fails.</summary>
     public static OperationResult RevertAll(RegistryBackupService backups)
     {
         var pending = backups.History
@@ -38,13 +37,30 @@ public static class UninstallService
         return OperationResult.Ok($"Reverted {pending.Count} change(s).");
     }
 
-    public static OperationResult DeleteAppData()
+    /// <summary>Deletes logs and backups. With keepLicense, the license file is preserved.</summary>
+    public static OperationResult DeleteAppData(bool keepLicense = false)
     {
         try
         {
-            if (Directory.Exists(DataDir))
-                Directory.Delete(DataDir, true);
-            return OperationResult.Ok("Deleted logs and backup data.");
+            if (!Directory.Exists(DataDir))
+                return OperationResult.Ok("Nothing to delete.");
+
+            var licensePath = Path.Combine(DataDir, "license.txt");
+            string savedLicense = keepLicense && File.Exists(licensePath)
+                ? File.ReadAllText(licensePath)
+                : null;
+
+            Directory.Delete(DataDir, true);
+
+            if (savedLicense != null)
+            {
+                Directory.CreateDirectory(DataDir);
+                File.WriteAllText(licensePath, savedLicense);
+            }
+
+            return OperationResult.Ok(savedLicense != null
+                ? "Deleted logs and backup data. Your license was kept."
+                : "Deleted logs and backup data.");
         }
         catch (Exception ex)
         {

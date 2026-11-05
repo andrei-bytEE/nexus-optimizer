@@ -31,11 +31,31 @@ public class StartupViewModel : ViewModelBase
         private set => Set(ref _statusMessage, value);
     }
 
+    /// <summary>Updates rows in place, so only the rows that changed redraw.</summary>
     public void Refresh()
     {
-        Items.Clear();
-        foreach (var entry in StartupService.List())
-            Items.Add(entry);
+        var latest = StartupService.List();
+
+        // Remove rows that no longer exist.
+        for (int i = Items.Count - 1; i >= 0; i--)
+        {
+            if (!latest.Any(l => l.Name == Items[i].Name && l.Hive == Items[i].Hive))
+                Items.RemoveAt(i);
+        }
+
+        // Update existing rows, or add new ones.
+        foreach (var entry in latest)
+        {
+            var existing = Items.FirstOrDefault(i => i.Name == entry.Name && i.Hive == entry.Hive);
+            if (existing == null)
+            {
+                Items.Add(entry);
+            }
+            else if (existing.IsEnabled != entry.IsEnabled)
+            {
+                existing.IsEnabled = entry.IsEnabled;
+            }
+        }
 
         DisabledItems.Clear();
         foreach (var backup in _backups.History
@@ -58,7 +78,6 @@ public class StartupViewModel : ViewModelBase
         }
         else
         {
-            // Prefer restoring the original value, so Undo history stays accurate.
             var backup = _backups.History.FirstOrDefault(b =>
                 !b.Restored &&
                 b.SubKey == StartupService.ApprovedKey &&

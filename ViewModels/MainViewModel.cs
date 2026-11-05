@@ -33,6 +33,9 @@ public class MainViewModel : ViewModelBase
     public PerformanceViewModel Performance { get; }
     public LicenseViewModel License { get; }
 
+    /// <summary>Shown in the sidebar footer, read from the running build.</summary>
+    public string VersionText => "Version " + UpdateService.CurrentVersion;
+
     /// <summary>The page currently shown in the content area.</summary>
     public object CurrentPage
     {

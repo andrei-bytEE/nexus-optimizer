@@ -176,8 +176,8 @@ public class DashboardViewModel : ViewModelBase
         var confirm = MessageBox.Show(
             $"This will:\n\n" +
             $"• Revert {pending} applied change(s) to their original values\n" +
-            "• Delete NEXUS OPTIMIZER's logs and backup history\n" +
-            "• Close the app\n\n" +
+                        "• Delete NEXUS OPTIMIZER's logs and backup history\n" +
+            (LicenseService.IsPremium ? "• Your license key stays saved, so it works after you reinstall\n" : "") +            "• Close the app\n\n" +
             "Your installed programs and apps are not affected. Continue?",
             "Uninstall NEXUS OPTIMIZER", MessageBoxButton.YesNo, MessageBoxImage.Warning);
 
@@ -195,7 +195,7 @@ public class DashboardViewModel : ViewModelBase
             return;
         }
 
-        var data = UninstallService.DeleteAppData();
+              var data = UninstallService.DeleteAppData(keepLicense: true);
         if (!data.Success)
         {
             MessageBox.Show(data.Message, "Uninstall incomplete", MessageBoxButton.OK, MessageBoxImage.Warning);
