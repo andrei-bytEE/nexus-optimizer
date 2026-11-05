@@ -23,7 +23,6 @@ public static class UpdateService
     // Public key only. Safe to ship. Its matching private key never leaves your PC.
     private const string PublicKeyXml = "<RSAKeyValue><Modulus>m7X2v0yWeu/ApB1mgmgsz5aEU3oNiI2kFciTr1Z45OXpYPd0ZcS80zsbwQ7WzQhYKSYcFI6na9GCbB0lGFlDTSsYwX6ZJyBTr+PuMxoDaIxHLwEX0IF5WF1JCSc00rQQRqMXzVZ1SXz3OWPlORaxC5eS0pJMbOP5tq1sXTJ8p8Epu635zE4pKFYd6XyQxnjKCnfMuEJ2dHjN9v1gZVAqLl1lTToy2mrhIvwXVCiCY2jBakrtlaGrvcAJ2zQn9o0uG3ZhW+fAXddYWXOkIKmJfqvfuVDQlM93ejBDArsBG3fL4n2xBAeO9B5ddIci1+TjGbRkWXSAtj6JIaUcKyXBKQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
 
-    // Points at version.json attached to the latest GitHub release.
     private const string VersionUrl =
         "https://github.com/andrei-bytEE/nexus-optimizer/releases/latest/download/version.json";
 
@@ -35,17 +34,23 @@ public static class UpdateService
         {
             var json = await Http.GetStringAsync(VersionUrl);
             var info = JsonSerializer.Deserialize<UpdateInfo>(json);
-            if (info == null || string.IsNullOrEmpty(info.Version)) return null;
-            return IsNewer(info.Version, CurrentVersion) ? info : null;
+            if (info == null || string.IsNullOrEmpty(info.Version))
+            {
+                LoggingService.Info("Update check: release had no version.");
+                return null;
+            }
+
+            var newer = IsNewer(info.Version, CurrentVersion);
+            LoggingService.Info($"Update check: latest={info.Version} current={CurrentVersion} newer={newer}");
+            return newer ? info : null;
         }
         catch (Exception ex)
         {
             LoggingService.Error("Update check failed", ex);
-            return null;   // no internet or no release: the app just carries on
+            return null;
         }
     }
 
-    /// <summary>Downloads, verifies, and swaps the exe. Keeps the old file as a fallback.</summary>
     public static async Task<(bool Ok, string Message)> InstallAsync(UpdateInfo info)
     {
         var exe = Environment.ProcessPath;
@@ -67,8 +72,6 @@ public static class UpdateService
 
             await File.WriteAllBytesAsync(newFile, bytes);
             if (File.Exists(oldFile)) File.Delete(oldFile);
-
-            // The running exe can be renamed but not overwritten, so rename it aside first.
             File.Move(exe, oldFile);
             File.Move(newFile, exe);
 
@@ -83,7 +86,6 @@ public static class UpdateService
         }
     }
 
-    /// <summary>Starts the new exe after the old one closes, then the caller shuts down.</summary>
     public static void Restart()
     {
         var exe = Environment.ProcessPath;

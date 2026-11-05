@@ -1,10 +1,11 @@
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Microsoft.Win32;
 
 namespace NexusOptimizer.Services;
 
-/// <summary>Offline license check. A key is "name.signature", signed with a secret only the key generator knows.</summary>
+/// <summary>Offline license check. A key is "payload.signature". The payload is "name|machineId", signed with a secret only the key generator knows.</summary>
 public static class LicenseService
 {
     // Must match the secret in tools\make-license.ps1. Changing it invalidates existing keys.
@@ -15,6 +16,22 @@ public static class LicenseService
 
     public static bool IsPremium { get; private set; }
     public static string Licensee { get; private set; } = "";
+
+    /// <summary>This PC's Windows machine ID. The customer sends it to you, and you put it in the key.</summary>
+    public static string MachineId { get; } = ReadMachineId();
+
+    private static string ReadMachineId()
+    {
+        try
+        {
+            using var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Cryptography");
+            return key?.GetValue("MachineGuid") as string ?? "unknown";
+        }
+        catch
+        {
+            return "unknown";
+        }
+    }
 
     public static void Load()
     {
@@ -34,7 +51,7 @@ public static class LicenseService
     {
         if (!TryValidate((key ?? "").Trim(), out var name))
         {
-            message = "That key is not valid. Check that you copied the whole key.";
+            message = "That key is not valid for this PC. Check that you copied the whole key, and that it was made for this machine ID.";
             return false;
         }
 
@@ -72,7 +89,11 @@ public static class LicenseService
             var expected = hmac.ComputeHash(payload);
             if (!CryptographicOperations.FixedTimeEquals(expected, signature)) return false;
 
-            name = Encoding.UTF8.GetString(payload);
+            var fields = Encoding.UTF8.GetString(payload).Split('|');
+            if (fields.Length != 2) return false;
+            if (!string.Equals(fields[1], MachineId, StringComparison.OrdinalIgnoreCase)) return false;
+
+            name = fields[0];
             return true;
         }
         catch

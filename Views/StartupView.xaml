@@ -5,7 +5,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="0,0,12,0">
             <TextBlock Text="Startup Apps" FontSize="28" FontWeight="SemiBold"/>
-            <TextBlock Text="Programs that start when Windows starts. Disabling one stops it from launching at sign-in."
+            <TextBlock Text="Programs that start when Windows starts. Switch a program off to stop it launching at sign-in."
                        Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,4,0,20"/>
 
             <TextBlock Text="Startup programs" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
@@ -27,14 +27,14 @@
                                     <TextBlock Text="{Binding Scope}" FontSize="11"
                                                Foreground="{StaticResource MutedBrush}" Margin="0,2,0,0"/>
                                 </StackPanel>
-                                <Button Grid.Column="1" Content="{Binding ToggleText}"
-                                        Style="{StaticResource PrimaryButton}"
-                                        Background="#DA3633"
-                                        MinWidth="110" Margin="16,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Command="{Binding DataContext.DisableCommand,
-                                                  RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                        CommandParameter="{Binding}"/>
+                                <CheckBox Grid.Column="1"
+                                          Style="{StaticResource ToggleSwitch}"
+                                          IsChecked="{Binding IsDisabledState, Mode=OneWay}"
+                                          Command="{Binding DataContext.DisableCommand,
+                                                    RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                          CommandParameter="{Binding}"
+                                          Margin="16,0,0,0"
+                                          VerticalAlignment="Center"/>
                             </Grid>
                         </Border>
                     </DataTemplate>
@@ -59,7 +59,7 @@
                                 </StackPanel>
                                 <Button Grid.Column="1" Content="Restore"
                                         Style="{StaticResource PrimaryButton}"
-                                        Background="#2EA043"
+                                        Background="#30A46C"
                                         MinWidth="110" Margin="16,0,0,0"
                                         VerticalAlignment="Center"
                                         Command="{Binding DataContext.RestoreCommand,
@@ -71,7 +71,8 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
 
-            <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource MutedBrush}" Margin="0,8,0,0"/>
+            <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource MutedBrush}"
+                       TextWrapping="Wrap" Margin="0,8,0,0"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

@@ -32,7 +32,13 @@ public class LicenseViewModel : ViewModelBase
         ? $"Premium (licensed to {LicenseService.Licensee})"
         : "Free trial: Dashboard, Performance, Startup Apps, Uninstall Apps";
 
-    public void Refresh() => OnPropertyChanged(nameof(PlanText));
+    public string MachineIdText => "Your machine ID: " + LicenseService.MachineId;
+
+    public void Refresh()
+    {
+        OnPropertyChanged(nameof(PlanText));
+        OnPropertyChanged(nameof(MachineIdText));
+    }
 
     private void Activate()
     {
