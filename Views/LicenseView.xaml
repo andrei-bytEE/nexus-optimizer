@@ -18,7 +18,7 @@
             <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="This PC" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                                        <TextBox Text="{Binding MachineId}" IsReadOnly="True"
+                                        <TextBox Text="{Binding MachineId, Mode=OneWay}" IsReadOnly="True"
                              FontFamily="Consolas" Padding="8,6"
                              Background="{StaticResource CardHoverBrush}"
                              Foreground="{StaticResource TextBrush}"
