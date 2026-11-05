@@ -18,7 +18,10 @@ public class UpdateInfo
 /// <summary>Checks GitHub Releases for a newer version, verifies its signature, and replaces the running exe.</summary>
 public static class UpdateService
 {
-    public const string CurrentVersion = "0.1.0";
+        public static string CurrentVersion =>
+        System.Reflection.Assembly.GetExecutingAssembly().GetName().Version is { } v
+            ? $"{v.Major}.{v.Minor}.{v.Build}"
+            : "0.0.0";
 
     // Public key only. Safe to ship. Its matching private key never leaves your PC.
     private const string PublicKeyXml = "<RSAKeyValue><Modulus>m7X2v0yWeu/ApB1mgmgsz5aEU3oNiI2kFciTr1Z45OXpYPd0ZcS80zsbwQ7WzQhYKSYcFI6na9GCbB0lGFlDTSsYwX6ZJyBTr+PuMxoDaIxHLwEX0IF5WF1JCSc00rQQRqMXzVZ1SXz3OWPlORaxC5eS0pJMbOP5tq1sXTJ8p8Epu635zE4pKFYd6XyQxnjKCnfMuEJ2dHjN9v1gZVAqLl1lTToy2mrhIvwXVCiCY2jBakrtlaGrvcAJ2zQn9o0uG3ZhW+fAXddYWXOkIKmJfqvfuVDQlM93ejBDArsBG3fL4n2xBAeO9B5ddIci1+TjGbRkWXSAtj6JIaUcKyXBKQ==</Modulus><Exponent>AQAB</Exponent></RSAKeyValue>";
