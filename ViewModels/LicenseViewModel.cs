@@ -33,6 +33,7 @@ public class LicenseViewModel : ViewModelBase
         : "Free trial: Dashboard, Performance, Startup Apps, Uninstall Apps";
 
     public string MachineIdText => "Your machine ID: " + LicenseService.MachineId;
+    public string MachineId => LicenseService.MachineId;
 
     public void Refresh()
     {

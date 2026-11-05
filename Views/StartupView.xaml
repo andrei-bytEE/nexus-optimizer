@@ -29,8 +29,7 @@
                                 </StackPanel>
                                 <CheckBox Grid.Column="1"
                                           Style="{StaticResource ToggleSwitch}"
-                                          IsChecked="{Binding IsDisabledState, Mode=OneWay}"
-                                          Command="{Binding DataContext.DisableCommand,
+                                          IsChecked="{Binding IsEnabled, Mode=OneWay}"                                          Command="{Binding DataContext.DisableCommand,
                                                     RelativeSource={RelativeSource AncestorType=UserControl}}"
                                           CommandParameter="{Binding}"
                                           Margin="16,0,0,0"

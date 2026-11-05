@@ -18,7 +18,11 @@
             <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="This PC" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
-                    <TextBlock Text="{Binding MachineIdText}" FontFamily="Consolas"/>
+                                        <TextBox Text="{Binding MachineId}" IsReadOnly="True"
+                             FontFamily="Consolas" Padding="8,6"
+                             Background="{StaticResource CardHoverBrush}"
+                             Foreground="{StaticResource TextBrush}"
+                             BorderBrush="{StaticResource BorderBrush}"/>
                     <TextBlock Text="Send this ID when you buy a license. The key will only work on this PC."
                                Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,6,0,0"/>
                 </StackPanel>
