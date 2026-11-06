@@ -33,6 +33,28 @@
         <DataTemplate DataType="{x:Type ViewModels:LicenseViewModel}">
             <views:LicenseView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModels:GamesViewModel}">
+            <views:GamesView/>
+        </DataTemplate>
+
+        <!-- Section heading in the sidebar -->
+        <Style x:Key="NavSection" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}"/>
+            <Setter Property="Margin" Value="8,18,0,6"/>
+        </Style>
+
+        <!-- Small badge shown on premium items -->
+        <Style x:Key="ProBadge" TargetType="Border">
+            <Setter Property="Background" Value="#2A1E4A"/>
+            <Setter Property="BorderBrush" Value="#8B5CF6"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Padding" Value="5,1"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="8,0,0,0"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -41,6 +63,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
+        <!-- Sidebar -->
         <Border Background="{StaticResource SidebarBrush}"
                 BorderBrush="{StaticResource BorderBrush}"
                 BorderThickness="0,0,1,0">
@@ -56,37 +79,70 @@
                                Foreground="{StaticResource AccentBrush}" Margin="6,0,0,4"/>
                     <TextBlock Text="Advanced Windows Performance Suite"
                                FontSize="11" Foreground="{StaticResource MutedBrush}"
-                               TextWrapping="Wrap" Margin="6,0,0,30"/>
+                               TextWrapping="Wrap" Margin="6,0,0,0"/>
 
-                    <TextBlock Text="MENU" FontSize="10" FontWeight="SemiBold"
-                               Foreground="{StaticResource MutedBrush}" Margin="8,0,0,8"/>
+                    <TextBlock Text="OVERVIEW" Style="{StaticResource NavSection}"/>
+                    <Button x:Name="NavDashboard" Style="{StaticResource NavButton}"
+                            Command="{Binding ShowDashboardCommand}" Margin="0,0,0,4">
+                        <TextBlock Text="Dashboard"/>
+                    </Button>
+                    <Button x:Name="NavPerformance" Style="{StaticResource NavButton}"
+                            Command="{Binding ShowPerformanceCommand}" Margin="0,0,0,4">
+                        <TextBlock Text="Performance"/>
+                    </Button>
 
-                    <Button x:Name="NavDashboard" Content="Dashboard"
-                            Style="{StaticResource NavButton}"
-                            Command="{Binding ShowDashboardCommand}" Margin="0,0,0,4"/>
-                    <Button x:Name="NavPerformance" Content="Performance"
-                            Style="{StaticResource NavButton}"
-                            Command="{Binding ShowPerformanceCommand}" Margin="0,0,0,4"/>
-                    <Button x:Name="NavOptimization" Content="Windows Optimization  (Premium)"
-                            Style="{StaticResource NavButton}"
-                            Command="{Binding ShowOptimizationCommand}" Margin="0,0,0,4"/>
-                    <Button x:Name="NavProfiles" Content="Gaming Profile  (Premium)"
-                            Style="{StaticResource NavButton}"
-                            Command="{Binding ShowProfilesCommand}" Margin="0,0,0,4"/>
-                    <Button x:Name="NavStartup" Content="Startup Apps"
-                            Style="{StaticResource NavButton}"
-                            Command="{Binding ShowStartupCommand}" Margin="0,0,0,4"/>
-                    <Button x:Name="NavUninstall" Content="Uninstall Apps"
-                            Style="{StaticResource NavButton}"
-                            Command="{Binding ShowUninstallAppsCommand}" Margin="0,0,0,4"/>
-                    <Button x:Name="NavLicense" Content="License"
-                            Style="{StaticResource NavButton}"
-                            Command="{Binding ShowLicenseCommand}"/>
+                    <TextBlock Text="OPTIMIZE" Style="{StaticResource NavSection}"/>
+                    <Button x:Name="NavOptimization" Style="{StaticResource NavButton}"
+                            Command="{Binding ShowOptimizationCommand}" Margin="0,0,0,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Windows Optimization"/>
+                            <Border Style="{StaticResource ProBadge}">
+                                <TextBlock Text="PRO" FontSize="9" FontWeight="SemiBold" Foreground="#C4A5FF"/>
+                            </Border>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="NavProfiles" Style="{StaticResource NavButton}"
+                            Command="{Binding ShowProfilesCommand}" Margin="0,0,0,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Gaming Profile"/>
+                            <Border Style="{StaticResource ProBadge}">
+                                <TextBlock Text="PRO" FontSize="9" FontWeight="SemiBold" Foreground="#C4A5FF"/>
+                            </Border>
+                        </StackPanel>
+                    </Button>
+                    <Button x:Name="NavGames" Style="{StaticResource NavButton}"
+                            Command="{Binding ShowGamesCommand}" Margin="0,0,0,4">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Game Sessions"/>
+                            <Border Style="{StaticResource ProBadge}">
+                                <TextBlock Text="PRO" FontSize="9" FontWeight="SemiBold" Foreground="#C4A5FF"/>
+                            </Border>
+                        </StackPanel>
+                    </Button>
+
+                    <TextBlock Text="MANAGE" Style="{StaticResource NavSection}"/>
+                    <Button x:Name="NavStartup" Style="{StaticResource NavButton}"
+                            Command="{Binding ShowStartupCommand}" Margin="0,0,0,4">
+                        <TextBlock Text="Startup Apps"/>
+                    </Button>
+                    <Button x:Name="NavUninstall" Style="{StaticResource NavButton}"
+                            Command="{Binding ShowUninstallAppsCommand}" Margin="0,0,0,4">
+                        <TextBlock Text="Uninstall Apps"/>
+                    </Button>
+                    <Button x:Name="NavLicense" Style="{StaticResource NavButton}"
+                            Command="{Binding ShowLicenseCommand}">
+                        <TextBlock Text="License"/>
+                    </Button>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom">
                     <Border Height="1" Background="{StaticResource BorderBrush}" Margin="0,0,0,14"/>
-                    <TextBlock Text="{Binding VersionText}" FontSize="11" Foreground="{StaticResource MutedBrush}" Margin="6,0,0,0"/>
+                    <Button Content="Join our Discord"
+                            Style="{StaticResource SecondaryButton}"
+                            Command="{Binding OpenDiscordCommand}"
+                            Margin="0,0,0,10" HorizontalContentAlignment="Left"/>
+                    <TextBlock Text="{Binding VersionText}" FontSize="11"
+                               Foreground="{StaticResource MutedBrush}" Margin="6,0,0,0"/>
                 </StackPanel>
             </DockPanel>
         </Border>

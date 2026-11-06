@@ -150,9 +150,18 @@ public class OptimizationService
         }
     }
 
-    public OperationResult Apply(OptimizationItem item) =>
-        _backups.SetRegistryValue(item.Hive, item.SubKey, item.ValueName,
-                                  item.Kind, item.AppliedValue, item.Name);
+        public OperationResult Apply(OptimizationItem item)
+    {
+        var result = _backups.SetRegistryValue(item.Hive, item.SubKey, item.ValueName,
+                                               item.Kind, item.AppliedValue, item.Name);
+        if (!result.Success) return result;
+
+        // Read the value back to confirm Windows stored what we intended.
+        if (!IsApplied(item))
+            return OperationResult.Fail($"{item.Name}: the value was written, but reading it back did not match.");
+
+        return result;
+    }
 
     /// <summary>
     /// Turns an applied optimization off. If the app has a backup, the original value is restored.

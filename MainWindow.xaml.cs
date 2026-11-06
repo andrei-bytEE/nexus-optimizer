@@ -33,6 +33,7 @@ public partial class MainWindow : Window
         SetActive(NavPerformance, page is PerformanceViewModel);
         SetActive(NavOptimization, page is OptimizationViewModel);
         SetActive(NavProfiles, page is ProfilesViewModel);
+        SetActive(NavGames, page is GamesViewModel);
         SetActive(NavStartup, page is StartupViewModel);
         SetActive(NavUninstall, page is UninstallAppsViewModel);
         SetActive(NavLicense, page is LicenseViewModel);

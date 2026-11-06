@@ -1,0 +1,97 @@
+<UserControl x:Class="NexusOptimizer.Views.GamesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Foreground="{StaticResource TextBrush}">
+    <UserControl.Resources>
+        <!-- Selected tweak: purple tint. Unselected: plain card. -->
+        <Style x:Key="TweakCardStyle" TargetType="Border" BasedOn="{StaticResource CardStyle}">
+            <Setter Property="Padding" Value="14"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsChecked}" Value="True">
+                    <Setter Property="Background" Value="#2A1E4A"/>
+                    <Setter Property="BorderBrush" Value="#8B5CF6"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="0,0,12,0">
+            <TextBlock Text="Game Sessions" FontSize="28" FontWeight="SemiBold"/>
+            <TextBlock Text="Pick a game and the tweaks it should use. NEXUS applies them only while that game is running, and reverts them when it closes."
+                       Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,4,0,20"/>
+
+            <Border Style="{StaticResource HoverCard}" Margin="0,0,0,16">
+                <StackPanel>
+                    <CheckBox Content="Automatically apply tweaks when a selected game starts"
+                              IsChecked="{Binding AutoOptimize}" Margin="0,0,0,10"/>
+                    <TextBlock Text="{Binding SessionText}" Foreground="{StaticResource MutedBrush}"/>
+                </StackPanel>
+            </Border>
+
+            <Button Content="Add Game (.exe)" Style="{StaticResource PrimaryButton}"
+                    Command="{Binding AddGameCommand}" HorizontalAlignment="Left" Margin="0,0,0,16"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Your games" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <ItemsControl ItemsSource="{Binding Games}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource HoverCard}" Margin="0,0,0,12">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"/>
+                                            <TextBlock Text="{Binding SummaryText}" FontSize="12"
+                                                       Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                        <Button Grid.Column="1" Content="Choose tweaks"
+                                                Style="{StaticResource SecondaryButton}"
+                                                Margin="12,0,0,0" VerticalAlignment="Center"
+                                                Command="{Binding DataContext.SelectCommand,
+                                                          RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                    <TextBlock Text="{Binding SelectedName}" FontSize="18" FontWeight="SemiBold" Margin="0,0,0,10"/>
+                    <Button Content="Remove game" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding RemoveGameCommand}" HorizontalAlignment="Left" Margin="0,0,0,12"/>
+                    <ItemsControl ItemsSource="{Binding Tweaks}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource TweakCardStyle}">
+                                    <CheckBox IsChecked="{Binding IsChecked}">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextWrapping="Wrap"/>
+                                            <TextBlock Text="{Binding Description}" FontSize="12"
+                                                       Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </CheckBox>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Grid>
+
+            <TextBlock Text="{Binding Status}" Foreground="{StaticResource MutedBrush}"
+                       TextWrapping="Wrap" Margin="0,12,0,0"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -22,6 +22,8 @@ public class MainViewModel : ViewModelBase
         UninstallApps = new UninstallAppsViewModel();
         Performance = new PerformanceViewModel();
         License = new LicenseViewModel();
+        Sessions = new GameSessionService(optimizer);
+        Games = new GamesViewModel(Sessions);
         _currentPage = Dashboard;
     }
 
@@ -32,8 +34,24 @@ public class MainViewModel : ViewModelBase
     public UninstallAppsViewModel UninstallApps { get; }
     public PerformanceViewModel Performance { get; }
     public LicenseViewModel License { get; }
+    public GameSessionService Sessions { get; }
+    public GamesViewModel Games { get; }
 
     /// <summary>Shown in the sidebar footer, read from the running build.</summary>
+        public const string DiscordUrl = "https://discord.gg/zSyukyrgwx";
+
+    public RelayCommand OpenDiscordCommand => new(_ =>
+    {
+        try
+        {
+            System.Diagnostics.Process.Start(
+                new System.Diagnostics.ProcessStartInfo(DiscordUrl) { UseShellExecute = true });
+        }
+        catch (Exception ex)
+        {
+            LoggingService.Error("Could not open Discord link", ex);
+        }
+    });
     public string VersionText => "Version " + UpdateService.CurrentVersion;
 
     /// <summary>The page currently shown in the content area.</summary>
@@ -71,4 +89,5 @@ public class MainViewModel : ViewModelBase
 
     public RelayCommand ShowOptimizationCommand => new(_ => Navigate(Optimization, true, Optimization.Refresh));
     public RelayCommand ShowProfilesCommand => new(_ => Navigate(Profiles, true, Profiles.Refresh));
+    public RelayCommand ShowGamesCommand => new(_ => Navigate(Games, true, Games.Refresh));
 }

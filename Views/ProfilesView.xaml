@@ -14,7 +14,7 @@
                       Command="{Binding ApplyGamingCommand}"
                       IsChecked="{Binding GamingOn, Mode=OneWay}"/>
 
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+            <Border Style="{StaticResource HoverCard}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="Power plan" FontSize="16" FontWeight="SemiBold"/>
                     <TextBlock Text="High performance keeps the CPU at higher clock speeds. It uses more power and heat, so it's most useful on desktops or when plugged in."
@@ -26,7 +26,7 @@
             <ItemsControl ItemsSource="{Binding Items}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                        <Border Style="{StaticResource HoverCard}" Margin="0,0,0,12">
                             <StackPanel>
                                 <TextBlock Text="{Binding Name}" FontSize="15" FontWeight="SemiBold"/>
                                 <TextBlock Text="{Binding Description}"

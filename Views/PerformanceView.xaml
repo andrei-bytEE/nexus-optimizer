@@ -11,7 +11,7 @@
                        Foreground="{StaticResource MutedBrush}" Margin="0,0,0,20"/>
 
             <WrapPanel>
-                <Border Style="{StaticResource CardStyle}" Width="330" Margin="0,0,16,16">
+                <Border Style="{StaticResource HoverCard}" Width="330" Margin="0,0,16,16">
                     <StackPanel>
                         <TextBlock Text="CPU" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
                         <TextBlock Text="{Binding CpuUsage}" FontSize="36" FontWeight="SemiBold"/>
@@ -20,7 +20,7 @@
                     </StackPanel>
                 </Border>
 
-                <Border Style="{StaticResource CardStyle}" Width="330" Margin="0,0,16,16">
+                <Border Style="{StaticResource HoverCard}" Width="330" Margin="0,0,16,16">
                     <StackPanel>
                         <TextBlock Text="Memory" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
                         <TextBlock Text="{Binding MemoryUsage}" FontSize="36" FontWeight="SemiBold"/>
@@ -29,7 +29,7 @@
                     </StackPanel>
                 </Border>
 
-                <Border Style="{StaticResource CardStyle}" Width="330" Margin="0,0,16,16">
+                <Border Style="{StaticResource HoverCard}" Width="330" Margin="0,0,16,16">
                     <StackPanel>
                         <TextBlock Text="GPU" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,12"/>
                         <TextBlock Text="{Binding GpuUsage}" FontSize="36" FontWeight="SemiBold"/>

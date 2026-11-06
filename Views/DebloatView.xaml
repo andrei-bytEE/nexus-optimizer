@@ -19,7 +19,7 @@
             <ItemsControl ItemsSource="{Binding StoreItems}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                        <Border Style="{StaticResource HoverCard}" Margin="0,0,0,12">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -49,7 +49,7 @@
             <ItemsControl ItemsSource="{Binding Programs}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,12">
+                        <Border Style="{StaticResource HoverCard}" Margin="0,0,0,12">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>

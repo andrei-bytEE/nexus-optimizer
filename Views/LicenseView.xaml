@@ -8,14 +8,14 @@
             <TextBlock Text="Enter your license key to unlock all features on this PC. Each key works on one PC only."
                        Foreground="{StaticResource MutedBrush}" TextWrapping="Wrap" Margin="0,4,0,20"/>
 
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+            <Border Style="{StaticResource HoverCard}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="Current plan" FontSize="16" FontWeight="SemiBold"/>
                     <TextBlock Text="{Binding PlanText}" Margin="0,6,0,0"/>
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+            <Border Style="{StaticResource HoverCard}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="This PC" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
                                         <TextBox Text="{Binding MachineId, Mode=OneWay}" IsReadOnly="True"
@@ -28,7 +28,7 @@
                 </StackPanel>
             </Border>
 
-            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+            <Border Style="{StaticResource HoverCard}" Margin="0,0,0,16">
                 <StackPanel>
                     <TextBlock Text="License key" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,10"/>
                     <TextBox Text="{Binding KeyText, UpdateSourceTrigger=PropertyChanged}"

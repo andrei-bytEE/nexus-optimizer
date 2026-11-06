@@ -9,6 +9,11 @@ public class OptimizationItem
     public string Description { get; init; } = "";
     public string Risk { get; init; } = "Low";
 
+    /// <summary>Set by ProfileService.ApplyMetadata at startup.</summary>
+    public string Category { get; set; } = "General";
+    public string Evidence { get; set; } = "Documented Windows setting. Effect varies by PC.";
+    public bool RequiresRestart { get; set; }
+
     public RegistryHive Hive { get; init; }
     public string SubKey { get; init; } = "";
     public string ValueName { get; init; } = "";
@@ -25,8 +30,9 @@ public class OptimizationItem
 
     public string StatusText => IsApplied ? "Applied" : "Not applied";
     public string ButtonText => IsApplied ? "Applied" : "Apply";
+    public string RestartText => RequiresRestart ? "Restart required to take full effect" : "";
 
     public Brush ButtonBrush => IsApplied
-        ? new SolidColorBrush(Color.FromRgb(0x2E, 0xA0, 0x43))   // green
-        : new SolidColorBrush(Color.FromRgb(0xDA, 0x36, 0x33));  // red
+        ? new SolidColorBrush(Color.FromRgb(0x2E, 0xA0, 0x43))
+        : new SolidColorBrush(Color.FromRgb(0xDA, 0x36, 0x33));
 }
